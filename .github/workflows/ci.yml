@@ -51,7 +51,7 @@ jobs:
         with:
           image-ref: devops-practice:${{ github.sha }}
           format: 'table'
-          exit-code: '0'
+          exit-code: '1'
           severity: 'CRITICAL,HIGH'
 
       - name: Success
