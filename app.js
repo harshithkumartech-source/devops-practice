@@ -15,14 +15,3 @@ function divide(a, b) {
   }
   return a / b;
 }
-
-// Bad code to test ESLint rules
-var x = 5
-
-// Vulnerable function - intentionally insecure for DevSecOps learning
-function getUserById(userId) {
-  const query = "SELECT * FROM users WHERE id = " + userId
-  return query
-}
-
-module.exports = { add, subtract, multiply, divide, getUserById };
