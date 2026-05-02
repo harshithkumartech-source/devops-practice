@@ -15,3 +15,6 @@ function divide(a, b) {
   }
   return a / b;
 }
+
+// THIS LINE WAS MISSING — exports all functions
+module.exports = { add, subtract, multiply, divide };
