@@ -51,8 +51,20 @@ jobs:
           path: coverage/
           retention-days: 1
   
+  semgrep-tests:
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: semgrep scan
+        run: semgrep scan --config=auto --output=semgrep-results.json --json
+        continue-on-error: true
+  
   sonarqube-tests:
-    needs: unit-tests
+    needs: [unit-tests, semgrep-tests, lint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -78,5 +90,3 @@ jobs:
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.sources=.
             -Dsonar.exclusions=node_modules/**,coverage/**
-     
-  
