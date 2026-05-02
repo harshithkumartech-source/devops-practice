@@ -67,13 +67,14 @@ jobs:
             --config=p/owasp-top-ten \
             --output=semgrep-results.json \
             --json
+        continue-on-error: false
         
       - name: upload semgrep results
         uses: actions/upload-artifact@v4
         with:
           name: semgrep-results
           path: semgrep-results.json
-        continue-on-error: false
+        
 
 
   sonarqube-tests:
