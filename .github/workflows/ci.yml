@@ -74,11 +74,24 @@ jobs:
         with:
           name: semgrep-results
           path: semgrep-results.json
+
+  sca-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Aqua Security Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
         
-
-
   sonarqube-tests:
-    needs: [unit-tests, semgrep-tests, lint]
+    needs: [unit-tests, semgrep-tests, lint ,sca-tests]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -104,3 +117,11 @@ jobs:
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.sources=.
             -Dsonar.exclusions=node_modules/**,coverage/**
+
+
+
+
+            lint
+            unit-tests
+            semgrep-tests   ------> SonarQube ---> BUild Docker Image ---> Trivy Scan Docker Image---> Push to Docker Hub / ECR 
+            sca-tests
